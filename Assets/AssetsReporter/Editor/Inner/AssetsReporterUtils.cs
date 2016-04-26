@@ -121,26 +121,52 @@ public class AssetsReporterUtils{
 		File.WriteAllBytes(path, tex.EncodeToPNG());
 	}
 
-	public static string SaveModelPreview(ModelImporter importer,GameObject obj)
-	{
-		string guid = AssetDatabase.AssetPathToGUID(importer.assetPath);
-		string file = guid + ".png";
+    public static string SaveAssetPreview(AssetImporter importer, UnityEngine.Object obj)
+    {
+        string guid = AssetDatabase.AssetPathToGUID(importer.assetPath);
+        string file = guid + ".png";
 
-		//					var gmo = GameObject.Instantiate(obj);
-		var tex = AssetPreview.GetAssetPreview(obj);
+        //					var gmo = GameObject.Instantiate(obj);
+        var tex = AssetPreview.GetAssetPreview(obj);
 
-		tex = AssetPreview.GetAssetPreview(obj);
-		for (int i = 0; i < 100; ++i)
-		{
-			if (obj != null && tex == null)
-			{
-				tex = AssetPreview.GetAssetPreview(obj);
-				System.Threading.Thread.Sleep(10);
-			}
-		}
-		AssetsReporterUtils.SaveTexture2d("AssetsReporter/result/preview/" + file, tex);
-		return file;
-	}
+        tex = AssetPreview.GetAssetPreview(obj);
+        for (int i = 0; i < 100; ++i)
+        {
+            if (obj != null && tex == null)
+            {
+                tex = AssetPreview.GetAssetPreview(obj);
+                System.Threading.Thread.Sleep(10);
+            }
+        }
+        if (tex != null)
+        {
+            AssetsReporterUtils.SaveTexture2d("AssetsReporter/result/preview/" + file, tex);
+            tex = null;
+        }
+        return file;
+    }
+    public static string SaveNotWebVisibleTextureToPreview(TextureImporter importer, Texture2D tex)
+    {
+        string guid = AssetDatabase.AssetPathToGUID(importer.assetPath);
+        string file = guid + ".png";
+
+        var texCopy = new Texture2D(tex.width, tex.height, tex.format, tex.mipmapCount > 1);
+        texCopy.LoadRawTextureData(tex.GetRawTextureData());
+        texCopy.Apply();
+        if (texCopy != null)
+        {
+            var saveTex = new Texture2D(tex.width, tex.height, TextureFormat.RGBA32, false);
+            saveTex.SetPixels(texCopy.GetPixels());
+            saveTex.Apply();
+            AssetsReporterUtils.SaveTexture2d("AssetsReporter/result/preview/" + file, saveTex);
+
+            Texture2D.DestroyImmediate(saveTex);
+            Texture2D.DestroyImmediate(texCopy);
+            saveTex = texCopy = null;
+        }
+        return file;
+    }
+
     public static bool IsVisibleInWebBrowserImage(string path)
     {
         path = path.ToLower();

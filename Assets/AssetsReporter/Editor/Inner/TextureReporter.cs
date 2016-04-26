@@ -94,8 +94,13 @@ public class TextureReporter {
 			format = importer.textureFormat;
 		}
 
-		var tex = GetTextureSize(importer, out w, out h);
+		var tex = GetTextureSize(importer, out w, out h) as Texture2D;
 		sb.Append("{");
+        if (!AssetsReporterUtils.IsVisibleInWebBrowserImage(importer.assetPath))
+        {
+            string preview = AssetsReporterUtils.SaveNotWebVisibleTextureToPreview(importer, tex);
+            AssetsReporterUtils.AddJsonObject(sb, "preview", preview).Append(",");
+        }
 		AssetsReporterUtils.AddJsonObject(sb, "path", importer.assetPath.ToString()).Append(",");
 		AssetsReporterUtils.AddJsonObject(sb, "textureType", type.ToString()).Append(",");
 		AssetsReporterUtils.AddJsonObject(sb, "isReadable", importer.isReadable).Append(",");

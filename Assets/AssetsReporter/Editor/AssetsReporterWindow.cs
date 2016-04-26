@@ -40,7 +40,9 @@ public class AssetsReporterWindow : EditorWindow {
 		EditorGUILayout.Space();
 		OnGUIExcludeList();
 		EditorGUILayout.Space();
-		OnGUITexture();
+        OnGUIAll();
+        EditorGUILayout.Space();
+        OnGUITexture();
 		OnGUIAudio();
 		OnGUIModel();
 		OnGUIAssetBundle();
@@ -97,6 +99,26 @@ public class AssetsReporterWindow : EditorWindow {
 		EditorGUILayout.EndHorizontal();
 	}
 
+
+    private void OnGUIAll()
+    {
+        EditorGUILayout.LabelField("All Report");
+        EditorGUILayout.BeginHorizontal();
+        EditorGUILayout.LabelField("", GUILayout.Width(Space));
+        if (GUILayout.Button("Report", GUILayout.Width(100)))
+        {
+            SaveExcludeList();
+            TextureReporter.CreateReport(this.targetList[currentTarget], excludeList);
+            ModelReporter.CreateReport(excludeList);
+            AudioReporter.CreateReport(this.targetList[currentTarget], excludeList);
+            AssetsReporterUtils.OpenURL(Path.Combine("AssetsReporter", "index.html"));
+        }
+        if (GUILayout.Button("Open", GUILayout.Width(100)))
+        {
+            AssetsReporterUtils.OpenURL(Path.Combine("AssetsReporter", "index.html"));
+        }
+        EditorGUILayout.EndHorizontal();
+    }
 	private void OnGUITexture()
 	{
 		EditorGUILayout.LabelField("Texture Report");

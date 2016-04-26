@@ -94,7 +94,7 @@ public class TextureReporter {
 			format = importer.textureFormat;
 		}
 
-		GetTextureSize(importer, out w, out h);
+		var tex = GetTextureSize(importer, out w, out h);
 		sb.Append("{");
 		AssetsReporterUtils.AddJsonObject(sb, "path", importer.assetPath.ToString()).Append(",");
 		AssetsReporterUtils.AddJsonObject(sb, "textureType", type.ToString()).Append(",");
@@ -108,6 +108,11 @@ public class TextureReporter {
 		AssetsReporterUtils.AddJsonObject(sb, "textureFormat", format.ToString());
 		sb.Append("}");
 
+        if (tex != null)
+        {
+            Resources.UnloadAsset(tex);
+            tex = null;
+        }
 		AssetsReporterUtils.AddCountDictionary(this.textureFormatSet, format);
 		AssetsReporterUtils.AddCountDictionary(this.textureTypeSet, type);
 	}

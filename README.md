@@ -5,6 +5,10 @@
 このツールはUnityプロジェクト内(Assets以下)に含むEditor拡張と、プロジェクト内に含めないHTML部分の二個で成り立っています<br />
 本プロジェクトを丸ごとコピーして利用して下さい。
 
+# デモ
+[`https://wotakuro.github.io/AssetsReporter/`](https://wotakuro.github.io/AssetsReporter/)<br />
+AssetsReportの結果がこのような感じで閲覧可能です。<br />
+※デモは英語版ですが、本ブランチから落とせば日本語表記です！！
 
 
 # 使い方

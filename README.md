@@ -46,8 +46,16 @@ Rigの設定はどうなっているか、Mesh最適化等はちゃんとして�
 </pre>
 
 # AssetBundleReporter
+![alt text](ResourcesReporter.png)
 <pre>
-作りかけです。作成予定のAssetBundleを閲覧可能な形にします
+作成予定のAssetBundleを閲覧可能な形にします
+</pre>
+
+# ResourcesReporter
+![alt text](ReporterAb.png)
+<pre>
+プロジェクト中にある「Resources」ディレクトリを一覧にします。
+Resourcesフォルダはあるだけでメモリを消費するので可能な限り消しましょう。
 </pre>
 
 #ignoreについて
